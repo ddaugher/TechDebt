@@ -1,0 +1,62 @@
+cp -R wmsCommon/src/main/java/com/gfs/wms/common/vendor/vendoritem wmsCommon/src/main/java/com/gfs/wms/common/warehouse/palletStatusChange;
+# remove .svn dirs from new directory
+cd wmsCommon/src/main/java/com/gfs/wms/common/warehouse/palletStatusChange; /usr/bin/cleanSVN; wms;
+# replace internal references'
+perl -e "s/VendorItem/PalletStatusChange/g;" -pi $(find wmsCommon/src/main/java/com/gfs/wms/common/warehouse/palletStatusChange -type f);
+perl -e "s/vendorItem/palletStatusChange/g;" -pi $(find wmsCommon/src/main/java/com/gfs/wms/common/warehouse/palletStatusChange -type f);
+# rename files
+cd wmsCommon/src/main/java/com/gfs/wms/common/warehouse/palletStatusChange; find . | perl -ne'chomp; next unless -e; $oldname = $_; s/VendorItem/PalletStatusChange/; next if -e; rename $oldname, $_'; wms;
+# rename package
+perl -p -i -e "s/vendor\.vendoritem/warehouse.palletStatusChange/g" $(find wmsCommon/src/main/java/com/gfs/wms/common/warehouse/palletStatusChange -type f);
+
+#####
+cp wmsCommon/src/main/java/com/gfs/wms/common/test/fixture/VendorItemDtoFixture.java wmsCommon/src/main/java/com/gfs/wms/common/test/fixture/PalletStatusChangeDtoFixture.java;
+perl -e "s/VendorItem/PalletStatusChange/g;" -pi wmsCommon/src/main/java/com/gfs/wms/common/test/fixture/PalletStatusChangeDtoFixture.java;
+
+# duplicate collection and dto tests  
+cp -R wmsCommon/src/test/java/com/gfs/wms/common/vendor/vendoritem/ wmsCommon/src/test/java/com/gfs/wms/common/warehouse/palletStatusChange ;
+# remove .svn dirs from new directory
+cd wmsCommon/src/test/java/com/gfs/wms/common/warehouse/palletStatusChange; /usr/bin/cleanSVN; wms;
+# rename package
+perl -p -i -e "s/vendor\.vendoritem/warehouse.palletStatusChange/g" $(find wmsCommon/src/test/java/com/gfs/wms/common/warehouse/palletStatusChange -type f);
+perl -e "s/VendorItem/PalletStatusChange/g;" -pi $(find wmsCommon/src/test/java/com/gfs/wms/common/warehouse/palletStatusChange -type f);
+perl -e "s/vendorItem/palletStatusChange/g;" -pi $(find wmsCommon/src/test/java/com/gfs/wms/common/warehouse/palletStatusChange -type f);
+cd wmsCommon/src/test/java/com/gfs/wms/common/warehouse/palletStatusChange; find . | perl -ne'chomp; next unless -e; $oldname = $_; s/VendorItem/PalletStatusChange/; next if -e; rename $oldname, $_'; wms;
+# rename package
+perl -p -i -e "s/vendor\.vendoritem/warehouse.palletStatusChange/g" $(find wmsCommon/src/test/java/com/gfs/wms/common/warehouse/palletStatusChange -type f);
+ 
+#####
+cp -R warehouseService/src/main/java/com/gfs/wms/service/vendor/vendoritem warehouseService/src/main/java/com/gfs/wms/service/warehouse/palletStatusChange;
+# remove .svn dirs from new directory
+cd warehouseService/src/main/java/com/gfs/wms/service/warehouse/palletStatusChange; /usr/bin/cleanSVN; wms
+perl -e "s/VendorItem/PalletStatusChange/g;" -pi $(find warehouseService/src/main/java/com/gfs/wms/service/warehouse/palletStatusChange -type f);
+perl -e "s/vendorItem/palletStatusChange/g;" -pi $(find warehouseService/src/main/java/com/gfs/wms/service/warehouse/palletStatusChange -type f);
+cd warehouseService/src/main/java/com/gfs/wms/service/warehouse/palletStatusChange; find . | perl -ne'chomp; next unless -e; $oldname = $_; s/VendorItem/PalletStatusChange/; next if -e; rename $oldname, $_'; wms;
+# rename package
+perl -p -i -e "s/vendor\.vendoritem/warehouse.palletStatusChange/g" $(find warehouseService/src/main/java/com/gfs/wms/service/warehouse/palletStatusChange -type f);
+
+#####   
+cp -R warehouseService/src/test/java/com/gfs/wms/service/vendor/vendoritem/ warehouseService/src/test/java/com/gfs/wms/service/warehouse/palletStatusChange ;
+# remove .svn dirs from new directory
+cd warehouseService/src/test/java/com/gfs/wms/service/warehouse/palletStatusChange; /usr/bin/cleanSVN; wms;
+perl -e "s/VendorItem/PalletStatusChange/g;" -pi $(find warehouseService/src/test/java/com/gfs/wms/service/warehouse/palletStatusChange -type f);
+perl -e "s/vendorItem/palletStatusChange/g;" -pi $(find warehouseService/src/test/java/com/gfs/wms/service/warehouse/palletStatusChange -type f);
+cd warehouseService/src/test/java/com/gfs/wms/service/warehouse/palletStatusChange; find . | perl -ne'chomp; next unless -e; $oldname = $_; s/VendorItem/PalletStatusChange/; next if -e; rename $oldname, $_'; wms;
+# rename package
+perl -p -i -e "s/vendor\.vendoritem/warehouse.palletStatusChange/g" $(find warehouseService/src/test/java/com/gfs/wms/service/warehouse/palletStatusChange -type f);
+
+#####
+# add to version control
+svn add wmsCommon/src/main/java/com/gfs/wms/common/warehouse/palletStatusChange --force; 
+svn add wmsCommon/src/test/java/com/gfs/wms/common/warehouse/palletStatusChange --force; 
+svn add wmsCommon/src/main/java/com/gfs/wms/common/test/fixture/PalletStatusChangeDtoFixture.java; 
+svn add warehouseService/src/main/java/com/gfs/wms/service/warehouse/palletStatusChange --force; 
+svn add warehouseService/src/test/java/com/gfs/wms/service/warehouse/palletStatusChange --force
+
+-------
+
+# cleanSVN script
+ #!/bin/sh
+ echo "recursively removing .svn folders from"
+ pwd
+ rm -rf `find . -type d -name .svn`
